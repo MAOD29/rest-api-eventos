@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Business;
+use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
 {
+    const MODEL = "App\Business";
+    const FOLDER = "Business";
+    use ApiResource;
+
+    function __construct()
+    {
+        $this->middleware('auth:api',['except' => ['index','show']]);
+        //$this->middleware('roles:admin',['except' => ['show','index']]);
+        
+    }
+   
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +26,8 @@ class BusinessController extends Controller
     public function index()
     {
         //
+        return $this->all();
+       
     }
 
     /**
@@ -22,9 +36,10 @@ class BusinessController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+
+        return $this->add();
     }
 
     /**
@@ -33,9 +48,12 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Business $business)
     {
         //
+        //return asset("storage/$business->image");
+        return $this->getOne($business);
+           
     }
 
     /**
@@ -45,9 +63,10 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Business $business)
     {
         //
+       return $this->change($business);
     }
 
     /**
@@ -56,8 +75,10 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Business $business)
     {
         //
+       return $this->delete($business);
+
     }
 }

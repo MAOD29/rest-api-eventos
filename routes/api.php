@@ -13,6 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function(Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'v1' ], function () {
+    Route::get('user/getbussiness','UserController@getAllBusinessForUser');
+    Route::get('user/getevents','UserController@getAllEventsForUser');
+    //gracias a esto puedo usar route mode bulding ver destroy en este controller
+    Route::apiResource('user', 'UserController');
+    Route::apiResource('business', 'BusinessController');
+    Route::apiResource('event', 'EventController');
+   
+});
+
+
+
+

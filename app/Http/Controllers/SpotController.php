@@ -1,23 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Event;
+
 use Illuminate\Http\Request;
 
-class EventController extends Controller
+class SpotController extends Controller
 {
-
-    const MODEL = "App\Event";
-    const FOLDER = "Event";
-    use ApiResource;
-
-    function __construct()
-    {
-        $this->middleware('auth:api',['except' => ['index','show']]);
-        //$this->middleware('roles:admin',['except' => ['show','index']]);
-        
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +14,6 @@ class EventController extends Controller
     public function index()
     {
         //
-        return $this->all();
     }
 
     /**
@@ -35,11 +22,9 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
         //
-        return $this->add();
-
     }
 
     /**
@@ -48,10 +33,9 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show($id)
     {
         //
-        return $this->getOne($event);
     }
 
     /**
@@ -61,10 +45,9 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Event $event)
+    public function update(Request $request, $id)
     {
         //
-        return $this->change($event);
     }
 
     /**
@@ -73,9 +56,8 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
         //
-        return $this->delete($event);
     }
 }
