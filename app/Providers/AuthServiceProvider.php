@@ -33,5 +33,6 @@ class AuthServiceProvider extends ServiceProvider
     {
 
          $this->registerPolicies();
+         
     }
 }

@@ -12,9 +12,18 @@ trait ApiResource {
         }
 
         $model = self::MODEL;
+        $folderName = self::FOLDER;
+
         $data = $model::paginate(10);
+
+        $data->map(function ($item) use($folderName){
+
+            $item->image =  asset("storage/$folderName/$item->image"); 
+            
+        });
         return response()->json(['message' => 'ok', 'data' => $data], 200);
     }
+ 
 
     public function getOne(Model $model){
         
@@ -48,7 +57,7 @@ trait ApiResource {
     }
     public function change(Model $model){
 
-        $this->authorize('view',$model);
+        $this->authorize('view',Request()->user(),$model);
 
         $user =  Request()->user();
         Request()->merge(['user_id' => $user->id]);
@@ -72,7 +81,7 @@ trait ApiResource {
             return response()->json(['error' => 'No json'], 401, []);
         }
 
-        $this->authorize('view',$model);
+        $this->authorize('view',Request()->user(),$model);
         $model->delete();
         return response()->json(['message' => 'ok', 'data' => $model], 200);
     }

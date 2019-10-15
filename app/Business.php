@@ -1,11 +1,12 @@
 <?php
 
 namespace App;
-
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 class Business extends Model
 {
+    use Sluggable;
     //
     protected $fillable = ['name','descripcion','image','location','contact','start','finish','user_id','typebusinesses_id'];
     protected $dates = [];
@@ -28,5 +29,22 @@ class Business extends Model
         
     public function TypeBusiness(){
         return $this->hasMany(Typebusiness::class);
+    }
+    public function sluggable() {
+        return [
+            'slug' => [
+                'source' => 'name',
+            ]
+        ];
+    }
+    
+    /**
+     * Get the route key for the model.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

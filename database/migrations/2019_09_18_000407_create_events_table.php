@@ -17,6 +17,7 @@ class CreateEventsTable extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('title', 50);
+            $table->string('slug');
             $table->text('descripcion');
             $table->string('location');
             $table->string('image');

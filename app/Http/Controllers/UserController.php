@@ -9,7 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+
 class UserController extends Controller
 {
     function __construct()

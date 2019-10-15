@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Business;
+use App\Typebusiness;
 use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
@@ -81,4 +82,17 @@ class BusinessController extends Controller
        return $this->delete($business);
 
     }
+     public function getTypeOfBussines(){
+        
+        if (!Request()->isJson()) {
+            return response()->json(['error' => 'Unauthorized'], 401, []);
+        }
+
+        $types = Typebusiness::all();
+
+        return response()->json(['types' => $types],201);
+
+    }
+    
+
 }

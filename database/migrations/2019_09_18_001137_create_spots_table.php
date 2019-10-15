@@ -17,6 +17,7 @@ class CreateSpotsTable extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('slug');
             $table->string('description');
             $table->string('image');
             $table->string('location');

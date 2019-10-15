@@ -17,12 +17,15 @@ class CreateBusinessesTable extends Migration
             $table->engine = 'InnoDB';
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('slug');
             $table->text('descripcion');
             $table->string('image');
             $table->string('location');
             $table->string('contact');
             $table->time('start');
             $table->time('finish');
+            $table->string('red_social')->nullable();
+
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
             

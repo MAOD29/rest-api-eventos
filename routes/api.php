@@ -17,13 +17,18 @@ Route::middleware('auth:api')->get('/user', function(Request $request) {
     return $request->user();
 });
 
-Route::group(['prefix' => 'v1' ], function () {
+Route::group(['prefix' => 'v1'], function () {
     Route::get('user/getbussiness','UserController@getAllBusinessForUser');
     Route::get('user/getevents','UserController@getAllEventsForUser');
+    Route::get('gettypebussiness','BusinessController@getTypeOfBussines');
+
+    
     //gracias a esto puedo usar route mode bulding ver destroy en este controller
     Route::apiResource('user', 'UserController');
     Route::apiResource('business', 'BusinessController');
     Route::apiResource('event', 'EventController');
+    Route::post('login', 'LoginController@login');
+    Route::post('register', 'LoginController@register');
    
 });
 
