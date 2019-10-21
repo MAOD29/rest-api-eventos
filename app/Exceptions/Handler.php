@@ -2,8 +2,13 @@
 
 namespace App\Exceptions;
 
+use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use \Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +51,30 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+          
+        if($exception instanceof ModelNotFoundException){
+            return response()->json(['error' => "Error modelo no encontrado",'codigo' => 404],404);
+        }
+        if($exception instanceof ValidationException){
+            return response()->json(['error' => $exception->validator->errors(),'codigo' => 401],401);
+        }
+        if($exception instanceof QueryException){
+            return response()->json(['error' => "Error de consulta",'codigo' => 400],400);
+        }
+        if($exception instanceof HttpException){
+            return response()->json(['error' => "Error de ruta",'codigo' => 404],404);
+        }
+
+        if($exception instanceof AuthenticationException){
+            return response()->json(['error' => "Error de autenticación",'codigo' => 401],401);
+        }
+
         return parent::render($request, $exception);
+
+
+
+
     }
+
 }

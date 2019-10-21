@@ -32,6 +32,7 @@ class LoginController extends Controller
 
             $user = User::where('email', $request->email)->first();
             if ($user && Hash::check($request->password, $user->password)) {
+                $user['token'] =  $user->createToken('MyApp')->accessToken;
                     return response()->json($user, 200);
             } else {
                     return response()->json(['error' => 'error de credenciales'], 401);
@@ -51,12 +52,13 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()], 401);   
         }
-       
-        Request()->merge(['api_token' => Str::random(60)]);
+       //quitar despues
+        Request()->merge(['api_token' => 'kdjsjdksjdkjskjdkasjdkjskdjskdj']);
         Request()->merge(['role_id' => '2']);
 
 
         $user = User::create(Request()->all());
+        $user['token'] =  $user->createToken('MyApp')->accessToken;
         return response()->json($user, 201);
     }
 
