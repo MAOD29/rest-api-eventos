@@ -41,10 +41,8 @@ trait ApiResource {
         $model = self::MODEL;
 
         Request()->merge(['user_id' => Request()->user()->id]);
-
-        if($this->validator() != null){
-            return response()->json($this->validator(), 401);
-        }
+        
+        $this->validate(Request(),$model::$rules);
         
         $file = Request()->file('image');
         $fileName = $this->uploadImage($file);
@@ -62,9 +60,7 @@ trait ApiResource {
         $user =  Request()->user();
         Request()->merge(['user_id' => $user->id]);
 
-        if($this->validator() != null){
-            return response()->json($this->validator(), 401);
-        }
+        $this->validate(Request(),$model::$rules);
 
         $file = Request()->file('image');
         $fileName = $this->uploadImage($file);
@@ -86,15 +82,7 @@ trait ApiResource {
         return response()->json(['message' => 'ok', 'data' => $model], 200);
     }
 
-    public function validator(){
-        $model = self::MODEL;
-        $validator = Validator::make(Request()->all(),$model::$rules);
-
-        if ($validator->fails()) {
-            return $validator->errors();     
-        }
-        return null;
-    }
+    
     public function uploadImage($file){
 
         $folder = self::FOLDER;

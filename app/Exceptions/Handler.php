@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use Dotenv\Exception\ValidationException;
+use Illuminate\Validation\ValidationException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use \Illuminate\Auth\AuthenticationException;
@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
             return response()->json(['error' => "Error modelo no encontrado",'codigo' => 404],404);
         }
         if($exception instanceof ValidationException){
-            return response()->json(['error' => $exception->validator->errors(),'codigo' => 401],401);
+            return response()->json(['error' => $exception->validator->errors(),'codigo' => 422],401);
         }
         if($exception instanceof QueryException){
             return response()->json(['error' => "Error de consulta",'codigo' => 400],400);

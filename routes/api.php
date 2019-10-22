@@ -25,8 +25,8 @@ Route::group(['prefix' => 'v1'], function () {
     
     //gracias a esto puedo usar route mode bulding ver destroy en este controller
     Route::apiResource('user', 'UserController');
-    Route::apiResource('business', 'BusinessController');
-    Route::apiResource('event', 'EventController');
+    Route::apiResource('business', 'BusinessController')->middleware('auth:api');
+    Route::apiResource('event', 'EventController')->middleware('auth:api');
     Route::post('login', 'LoginController@login');
     Route::post('register', 'LoginController@register');
    

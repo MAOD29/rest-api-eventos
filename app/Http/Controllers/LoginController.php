@@ -22,38 +22,28 @@ class LoginController extends Controller
             'email' => 'required',
         ];
 
-        $validator = Validator::make(Request()->all(),$rules);
+        $this->validate(Request(),$rules);
 
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 401);   
+
+        $user = User::where('email', $request->email)->first();
+        if(is_null($user)){
+            return response()->json(['error' => 'Usuario no existe'], 404);
+        }
+        if (! $user && Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'error de credenciales'], 401);
         }
 
-        try {
-
-            $user = User::where('email', $request->email)->first();
-            if ($user && Hash::check($request->password, $user->password)) {
-                $user['token'] =  $user->createToken('MyApp')->accessToken;
-                    return response()->json($user, 200);
-            } else {
-                    return response()->json(['error' => 'error de credenciales'], 401);
-            }
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'No content'], 406);
-        }
+        $user['token'] =  $user->createToken('MyApp')->accessToken;
+        return response()->json($user, 200);
+       
 
     }
-    public function register(Request $request){
+    public function register(){
          if (! Request()->isJson()) {
             return response()->json(['message' => 'No json'], 401, []);
         }
-
-        $validator = Validator::make(Request()->all(),User::$rules);
-
-        if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()], 401);   
-        }
-       //quitar despues
-        Request()->merge(['api_token' => 'kdjsjdksjdkjskjdkasjdkjskdjskdj']);
+        $this->validate(Request(),User::$rules);
+        
         Request()->merge(['role_id' => '2']);
 
 

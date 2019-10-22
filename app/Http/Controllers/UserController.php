@@ -50,13 +50,7 @@ class UserController extends Controller
         if (! Request()->isJson()) {
             return response()->json(['message' => 'no json'], 401);
         }
-        $validator = Validator::make(Request()->all(),User::$rules);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 401);     
-        }
-    
-        Request()->merge(['api_token' => Str::random(60)]);
+        $this->validate(Request(),User::$rules);
         $user = User::create(Request()->all());
         return response()->json(['message' => 'ok', 'data' => $user], 201);
         
@@ -98,21 +92,13 @@ class UserController extends Controller
             return response()->json(['message' => 'No json'], 401);
         }
 
-        $validator = Validator::make(Request()->all(),User::$rules);
+        $this->validate(Request(),User::$rules);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 401);     
-        }
-
-        try{
-            //TODO VALIDAR SI EXISTE   
+       
             $this->authorize('view',$user);
             $user->update(Request()->all());
             return response()->json(['message' => 'ok', 'data' => $user], 200);
 
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'No content'], 406);
-        }
       
     }
 
