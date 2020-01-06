@@ -1,11 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Spot;
 use Illuminate\Http\Request;
 
 class SpotController extends Controller
 {
+
+    const MODEL = "App\Spot";
+    const FOLDER = "Spot";
+    use ApiResource;
+
+    function __construct()
+    {
+        $this->middleware('auth:api',['except' => ['index','show']]);
+        $this->middleware('client',['except' => ['index','show']]);
+        //$this->middleware('roles:admin',['except' => ['show','index']]);
+        
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +26,7 @@ class SpotController extends Controller
     public function index()
     {
         //
+        return $this->all();
     }
 
     /**
@@ -25,6 +38,7 @@ class SpotController extends Controller
     public function store(Request $request)
     {
         //
+        return $this->add();
     }
 
     /**
@@ -33,9 +47,11 @@ class SpotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Spot $spot )
     {
         //
+        return $this->getOne($spot);
+        
     }
 
     /**
@@ -45,9 +61,10 @@ class SpotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Spot $spot)
     {
         //
+        return $this->change($spot);
     }
 
     /**
@@ -56,8 +73,10 @@ class SpotController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Spot $spot)
     {
         //
+        return $this->delete($spot);
+        
     }
 }

@@ -14,7 +14,7 @@ trait ApiResource {
         $model = self::MODEL;
         $folderName = self::FOLDER;
 
-        $data = $model::paginate(10);
+        $data = $model::paginate(6);
 
         $data->map(function ($item) use($folderName){
 

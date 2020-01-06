@@ -59,9 +59,7 @@ class Handler extends ExceptionHandler
         if($exception instanceof ValidationException){
             return response()->json(['error' => $exception->validator->errors(),'codigo' => 422],401);
         }
-        if($exception instanceof QueryException){
-            return response()->json(['error' => "Error de consulta",'codigo' => 400],400);
-        }
+        
         if($exception instanceof HttpException){
             return response()->json(['error' => "Error de ruta",'codigo' => 404],404);
         }
